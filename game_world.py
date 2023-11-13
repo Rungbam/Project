@@ -30,7 +30,7 @@ def remove_collision_objects(o):
     pass
 
 
-def remove_objects(o):
+def remove_object(o):
     for layer in objects:
         if o in layer:
             layer.remove(o)
