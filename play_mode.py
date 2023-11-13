@@ -13,12 +13,12 @@ def handle_events():
             game_framework.quit()
         elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
             game_framework.quit()
-    
+
 
 def init():
 
     field = Field()
-    game_framework.add_object(field, 0)
+    game_world.add_object(field, 0)
 
     pass
 
