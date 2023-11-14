@@ -1,6 +1,6 @@
 objects = [[] for _ in range(4)]
 
-# 충돌 체크 추가 예정
+collision_pairs = {}
 
 def add_object(o, depth = 0):
     objects[depth].append(o)
@@ -34,8 +34,8 @@ def remove_object(o):
     for layer in objects:
         if o in layer:
             layer.remove(o)
-            # remove_collision_objects(o)
-            # del o
+            remove_collision_objects(o)
+            del o
             return
     raise ValueError('Cannot delete non existing object')
 

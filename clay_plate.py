@@ -1,3 +1,5 @@
+import random
+
 from pico2d import *
 import game_world
 import game_framework
@@ -5,20 +7,30 @@ import game_framework
 class Clay_plate:
     image = None
 
-    def __init__(self, x = 400, y = 300, velocity = 1):
+    def __init__(self):
         if Clay_plate.image == None:
             Clay_plate.image = load_image('clay_plate.png')
-        self.x, self.y, self.velocity = x, y, velocity
+        self.x, self.y = random.choice([0, 800]), random.randint(100, 350)
+        if self.x == 0:
+            self.dir = 1
+        elif self.x == 800:
+            self.dir = -1
+
 
     def draw(self):
-        self.image.draw(self.x, self.y)
+        Clay_plate.image.draw(self.x, self.y, 50, 50)
         # draw_rectangle(*self.get_bb())
 
     def update(self):
-        self.x += self.velocity * 100 * game_framework.frame_time
+        if self.dir == 1:
+            self.x += self.dir * 50 * game_framework.frame_time
+        elif self.dir == -1:
+            self.x += self.dir * 50 * game_framework.frame_time
 
         if self.x < 25 or self.x > 800 - 25:
             game_world.remove_object(self)
+
+        self.x = clamp(0, self.x, 800)
 
     def get_bb(self):
         pass
