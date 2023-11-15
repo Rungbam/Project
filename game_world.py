@@ -23,7 +23,12 @@ def render():
 
 
 def add_collision_pair(group, a, b):
-    pass
+    if group not in collision_pairs:
+        collision_pairs[group] = [[], []]
+    if a:
+        collision_pairs[group][0].append(a)
+    if b:
+        collision_pairs[group][1].append(b)
 
 
 def remove_collision_objects(o):
@@ -45,5 +50,22 @@ def clear():
         layer.clear()
 
 
-def collide(a, b):
-    pass
+def collide_in(a, b):
+    la, ba, ra, ta = a.get_bb()
+    lb, bb, rb, tb = b.get_bb()
+
+    # 박스 안에 있는가?
+    if la < lb and ba < bb and ra < rb and ta < tb:
+        return False
+
+    return True
+
+def handle_collisions():
+    for group, pairs in collision_pairs.items():
+        for a in pairs[0]:
+            for b in pairs[1]:
+                if collide_in(a, b):
+                    a.handle_collision(group, b)
+                    b.handle_collision(group, a)
+
+    return None

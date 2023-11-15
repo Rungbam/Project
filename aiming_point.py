@@ -45,5 +45,7 @@ class Aiming_point:
     def get_bb(self):
         pass
 
-    def handle_colllision(self, group, other):
-        pass
+    def handle_colllision_in(self, group, other):
+        if group == 'aiming_point:clay_plate':
+            # 점수 증가
+            pass

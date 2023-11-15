@@ -35,5 +35,6 @@ class Clay_plate:
     def get_bb(self):
         pass
 
-    def handle_collision(self, group, other):
-        pass
+    def handle_collision_in(self, group, other):
+        if group == 'aiming_point:clay_plate':
+            game_world.remove_object(self)
