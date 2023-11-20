@@ -6,8 +6,10 @@ import game_framework
 
 
 def init():
+    global logo_start_time
     global image
     image = load_image('tuk_credit.png')
+    logo_start_time = get_time()
 
 def finish():
     global image
@@ -23,9 +25,7 @@ def handle_events():
 
 
 def update():
-    global logo_start_time
     if get_time() - logo_start_time >= 2.0:
-        logo_start_time = get_time()
         game_framework.change_mode(title_mode)
 
 
