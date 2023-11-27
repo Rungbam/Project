@@ -13,7 +13,7 @@ class Clay_plate:
 
     def draw(self):
         self.image.draw(self.x, self.y, 50, 50)
-        # draw_rectangle(*self.get_bb())
+        draw_rectangle(*self.get_bb())
         pass
 
     def update(self):
@@ -21,7 +21,7 @@ class Clay_plate:
         pass
 
     def get_bb(self):
-        pass
+        return self.x - 25, self.y - 25, self.x + 25, self.y + 25
 
     def handle_collision_in(self, group, other):
         if group == 'aiming_point:clay_plate':
