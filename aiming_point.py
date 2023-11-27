@@ -43,9 +43,10 @@ class Aiming_point:
         self.image.clip_draw(0, 0, 512, 512, self.x, self.y, 50, 50)
 
     def get_bb(self):
-        pass
+        return self.x, self.y
 
     def handle_colllision_in(self, group, other):
         if group == 'aiming_point:clay_plate':
             # 점수 증가
+            print('적중')
             pass

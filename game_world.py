@@ -31,15 +31,19 @@ def add_collision_pair(group, a, b):
         collision_pairs[group][1].append(b)
 
 
-def remove_collision_objects(o):
-    pass
+def remove_collision_object(o):
+    for pairs in collision_pairs.values():
+        if o in pairs[0]:
+            pairs[0].remove(o)
+        if o in pairs[1]:
+            pairs[1].remove(o)
 
 
 def remove_object(o):
     for layer in objects:
         if o in layer:
             layer.remove(o)
-            remove_collision_objects(o)
+            remove_collision_object(o)
             del o
             return
     raise ValueError('Cannot delete non existing object')
@@ -59,6 +63,19 @@ def collide_in(a, b):
         return False
 
     return True
+
+
+def collide(a, b):
+    la, ba, ra, ta = a.get_bb()
+    lb, bb, rb, tb = b.get_bb()
+
+    if la > rb: return False
+    if ra < lb: return False
+    if ta < bb: return False
+    if ba > tb: return False
+
+    return True
+
 
 def handle_collisions():
     for group, pairs in collision_pairs.items():
