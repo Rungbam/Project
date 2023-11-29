@@ -5,6 +5,6 @@ import play_mode_shooting as start_mode
 # import logo_mode as start_mode
 
 open_canvas(800, 600)
-hide_cursor()
+# hide_cursor()
 game_framework.run(start_mode)
 close_canvas()

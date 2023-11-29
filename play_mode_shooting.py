@@ -15,9 +15,12 @@ def handle_events():
             game_framework.quit()
         elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
             game_framework.quit()
+        else:
+            aiming_point.handle_event(event)
 
 
 def init():
+    global aiming_point
 
     field = Field()
     game_world.add_object(field, 0)
@@ -40,6 +43,7 @@ def finish():
 
 def update():
     game_world.update()
+    game_world.handle_collisions()
 
 
 def draw():
