@@ -10,6 +10,11 @@ class Clay_plate:
     def __init__(self):
         self.x, self.y = random.choice([0, 800]), random.randint(350, 500)
         self.image = load_image('clay_plate.png')
+        self.dir = 0
+        if self.x < 0:
+            self.dir = 1
+        elif self.x > 800:
+            self.dir = -1
 
     def draw(self):
         self.image.draw(self.x, self.y, 50, 50)
@@ -17,7 +22,10 @@ class Clay_plate:
         pass
 
     def update(self):
-        self.x += 1
+        if self.dir == 1:
+            self.x += 1
+        elif self.dir == -1:
+            self.x -= 1
         pass
 
     def get_bb(self):
