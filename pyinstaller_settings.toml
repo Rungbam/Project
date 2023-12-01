@@ -3,17 +3,24 @@ main_file = 'main.py'
 
 # 데이타 파일들을 지정하세요.
 data_files = [
-    'animation_sheet.png',
-    'ball21x21.png',
-    'football.mp3',
-    'pickup.wav',
-    'TUK_GROUND_FULL.png',
-    'zombie_pickup.wav',
-    'ENCR10B.TTF'
+    'field.jpg',
+    'clay_plate.png',
+    'canoe.png',
+    'aiming_point.png',
+    'hudle_1.png',
+    'hudle_2.png',
+    'hudle_3.png',
+    'river.jpg',
+    'rock.png',
+    'title.png',
+    'track.png',
+    'track_finish_line.png',
+    'tuk_credit.png',
+    'yoshi.png'
 ]
 
 # 데이타가 들어있는 폴더들을 지정하세요.
 data_folders = [
-    'zombie'
+
 ]
 
