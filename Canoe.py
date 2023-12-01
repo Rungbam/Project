@@ -1,7 +1,10 @@
 from pico2d import get_time, load_image, load_font, clamp,  SDL_KEYDOWN, SDL_KEYUP, SDLK_SPACE, SDLK_UP, SDLK_DOWN
+
 from rock import Rock
 import game_world
 import game_framework
+import server
+
 
 def up_down(e):
     return e[0] == 'INPUT' and e[1].type == SDL_KEYDOWN and e[1].key == SDLK_UP
@@ -32,28 +35,7 @@ RUN_SPEED_PPS = (RUN_SPEED_MPS * PIXEL_PER_METER)
 # FRAMES_PER_ACTION = 8
 
 
-class UP_and_DOWN:
-    @staticmethod
-    def enter(canoe, e):
-        if up_down(e) or down_up(e): # 위로 이동
-            pass
-        if down_down(e) or up_up(e):
-            pass
-
-    @staticmethod
-    def exit(canoe, e):
-        pass
-
-    @staticmethod
-    def do(canoe):
-        pass
-
-    @staticmethod
-    def draw(canoe):
-        pass
-
-
-class Speed_up:
+class Idle:
     @staticmethod
     def enter(canoe, e):
         pass
@@ -66,24 +48,52 @@ class Speed_up:
     def do(canoe):
         pass
 
+
+class Move_UP:
     @staticmethod
-    def draw(canoe):
+    def enter(canoe, e):
+        pass
+
+    @staticmethod
+    def exit(canoe, e):
+        pass
+
+    @staticmethod
+    def do(canoe):
+        pass
+
+
+class Move_DOWN:
+    @staticmethod
+    def enter(canoe, e):
+        pass
+
+    @staticmethod
+    def exit(canoe, e):
+        pass
+
+    @staticmethod
+    def do(canoe):
         pass
 
 
 class StateMachine:
     def __init__(self, canoe):
         self.canoe = canoe
-        self.cur_state = Speed_up
+        self.cur_state = Idle
         self.transitions = {
-
+            Idle: {up_down: Move_UP, down_down: Move_DOWN, up_up: Move_DOWN, down_up: Move_UP},
+            Move_UP: {up_up: Idle, down_down: Idle},
+            Move_DOWN: {down_up: Idle, up_down: Idle}
         }
 
     def start(self):
-        pass
+        self.cur_state.enter(self.canoe, ('NONE', 0))
 
     def update(self):
-        pass
+        self.cur_state.do(self.canoe)
+        self.canoe.x += self.canoe.speed * game_framework.frame_time
+        self.canoe.y += self.canoe.speed * game_framework.frame_time
 
     def handle_event(self, e):
         for check_event, next_state in self.transitions[self.cur_state].items():
@@ -95,8 +105,8 @@ class StateMachine:
 
         return False
 
-    def draw(self):
-        self.cur_state.draw(self.canoe)
+    # def draw(self):
+    #     self.cur_state.draw(self.canoe)
 
 
 class Canoe:
@@ -108,9 +118,18 @@ class Canoe:
 
     def update(self):
         self.state_machine.update()
+        self.x = clamp(200.0, self.x, server.river.w - 50.0)
+        self.y = clamp(300.0, self.y, server.river.h - 50.0)
 
     def handle_event(self, event):
         self.state_machine.handle_event(('INPUT', event))
 
     def draw(self):
-        self.state_machine.draw()
+        sx = self.x - server.river.window_left
+        sy = self.y - server.river.window_bottom
+
+    def get_bb(self):
+        pass
+
+    def handle_collision(self, group, other):
+        pass
