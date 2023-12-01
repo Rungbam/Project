@@ -1,3 +1,5 @@
+import server
+
 from pico2d import *
 
 class River:
