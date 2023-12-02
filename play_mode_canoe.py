@@ -1,8 +1,13 @@
+import os
+
 from pico2d import *
 import game_framework
-
 import game_world
+
+import server
 from canoe import Canoe
+from river import River
+from rock import Rock
 
 def handle_events():
     events = get_events()
@@ -12,15 +17,22 @@ def handle_events():
         elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
             game_framework.quit()
         else:
-            canoe.handle_event(event)
+            server.canoe.handle_event(event)
 
 
 def init():
-    global canoe
+    # global canoe
 
-    canoe = Canoe()
-    game_world.add_object(canoe, 1)
+    server.river = River()
+    game_world.add_object(server.river, 0)
+
+    server.canoe = Canoe()
+    game_world.add_object(server.canoe, 1)
     # 카누와 장애물 간 충돌 체크 추가 예정
+    for _ in range(40):
+        rock = Rock()
+        game_world.add_object(rock, 1)
+
 
 
 def finish():

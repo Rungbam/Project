@@ -1,10 +1,12 @@
+import random
 import server
 
 from pico2d import *
 
+
 class River:
     def __init__(self):
-        self.image = load_image('river_full.jpg')
+        self.image = load_image('river.png')
         self.cw = get_canvas_width()
         self.ch = get_canvas_height()
         self.w = self.image.w

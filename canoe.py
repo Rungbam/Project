@@ -3,6 +3,7 @@ from pico2d import get_time, load_image, load_font, clamp,  SDL_KEYDOWN, SDL_KEY
 from rock import Rock
 import game_world
 import game_framework
+
 import server
 
 
@@ -23,8 +24,8 @@ def time_out(e):
 
 
 # canoe speed
-PIXEL_PER_METER = (1 / 1) # 1픽셀 1m
-RUN_SPEED_KMPH = 1.5 #1.5km/h
+PIXEL_PER_METER = (10 / 1) # 10픽셀 1m
+RUN_SPEED_KMPH = 10 #1.5km/h
 RUN_SPEED_MPM = (RUN_SPEED_KMPH * 1000.0 / 60.0)
 RUN_SPEED_MPS = (RUN_SPEED_MPM / 60.0)
 RUN_SPEED_PPS = (RUN_SPEED_MPS * PIXEL_PER_METER)
@@ -38,7 +39,7 @@ RUN_SPEED_PPS = (RUN_SPEED_MPS * PIXEL_PER_METER)
 class Idle:
     @staticmethod
     def enter(canoe, e):
-        pass
+        canoe.speed = RUN_SPEED_PPS
 
     @staticmethod
     def exit(canoe, e):
@@ -52,7 +53,7 @@ class Idle:
 class Move_UP:
     @staticmethod
     def enter(canoe, e):
-        pass
+        canoe.speed = RUN_SPEED_PPS
 
     @staticmethod
     def exit(canoe, e):
@@ -66,7 +67,7 @@ class Move_UP:
 class Move_DOWN:
     @staticmethod
     def enter(canoe, e):
-        pass
+        canoe.speed = RUN_SPEED_PPS
 
     @staticmethod
     def exit(canoe, e):
@@ -112,14 +113,14 @@ class StateMachine:
 class Canoe:
     def __init__(self):
         self.x, self.y = 400, 300
-        self.image = load_image('canoe.png')
+        self.image = load_image('canoe_1.png')
         self.state_machine = StateMachine(self)
         self.state_machine.start()
 
     def update(self):
         self.state_machine.update()
-        self.x = clamp(200.0, self.x, server.river.w - 50.0)
-        self.y = clamp(300.0, self.y, server.river.h - 50.0)
+        self.x = clamp(50.0, self.x, server.river.w - 50.0)
+        self.y = clamp(50.0, self.y, server.river.h - 50.0)
 
     def handle_event(self, event):
         self.state_machine.handle_event(('INPUT', event))
@@ -128,8 +129,10 @@ class Canoe:
         sx = self.x - server.river.window_left
         sy = self.y - server.river.window_bottom
 
+        self.image.clip_draw(0, 0, 100, 100, sx, sy)
+
     def get_bb(self):
-        pass
+        return self.x - 50, self.y - 50, self.x + 50, self.y + 50
 
     def handle_collision(self, group, other):
         pass
