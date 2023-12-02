@@ -1,3 +1,4 @@
+import math
 from pico2d import get_time, load_image, load_font, clamp,  SDL_KEYDOWN, SDL_KEYUP, SDLK_SPACE, SDLK_UP, SDLK_DOWN
 
 from rock import Rock
@@ -10,14 +11,18 @@ import server
 def up_down(e):
     return e[0] == 'INPUT' and e[1].type == SDL_KEYDOWN and e[1].key == SDLK_UP
 
+
 def up_up(e):
     return e[0] == 'INPUT' and e[1].type == SDL_KEYUP and e[1].key == SDLK_UP
+
 
 def down_down(e):
     return e[0] == 'INPUT' and e[1].type == SDL_KEYDOWN and e[1].key == SDLK_DOWN
 
+
 def down_up(e):
-    return e[0] == 'INPUT' and e[1].type == SDL_KEYUP and e[1].key == SDLK_UP
+    return e[0] == 'INPUT' and e[1].type == SDL_KEYUP and e[1].key == SDLK_DOWN
+
 
 def time_out(e):
     return e[0] == 'TIME_OUT'
@@ -40,6 +45,7 @@ class Idle:
     @staticmethod
     def enter(canoe, e):
         canoe.speed = RUN_SPEED_PPS
+        canoe.dir = 0
 
     @staticmethod
     def exit(canoe, e):
@@ -53,6 +59,7 @@ class Idle:
 class Move_UP:
     @staticmethod
     def enter(canoe, e):
+        canoe.dir = math.pi / 4.0
         canoe.speed = RUN_SPEED_PPS
 
     @staticmethod
@@ -67,6 +74,7 @@ class Move_UP:
 class Move_DOWN:
     @staticmethod
     def enter(canoe, e):
+        canoe.dir = -math.pi / 4.0
         canoe.speed = RUN_SPEED_PPS
 
     @staticmethod
@@ -93,8 +101,8 @@ class StateMachine:
 
     def update(self):
         self.cur_state.do(self.canoe)
-        self.canoe.x += self.canoe.speed * game_framework.frame_time
-        self.canoe.y += self.canoe.speed * game_framework.frame_time
+        self.canoe.x += math.cos(self.canoe.dir) * self.canoe.speed * game_framework.frame_time
+        self.canoe.y += math.sin(self.canoe.dir) * self.canoe.speed * game_framework.frame_time
 
     def handle_event(self, e):
         for check_event, next_state in self.transitions[self.cur_state].items():
