@@ -3,6 +3,7 @@ from pico2d import get_time, load_image, load_font, clamp, SDL_KEYDOWN, SDL_KEYU
     draw_rectangle
 
 from rock import Rock
+from canoe_finish_line import Finish_Line
 import game_world
 import game_framework
 

@@ -8,6 +8,7 @@ import server
 from canoe import Canoe
 from river import River
 from rock import Rock
+from canoe_finish_line import Finish_Line
 
 def handle_events():
     events = get_events()
@@ -27,6 +28,11 @@ def init():
     server.canoe = Canoe()
     game_world.add_object(server.canoe, 1)
     game_world.add_collision_pair('canoe:rock', server.canoe, None)
+    game_world.add_collision_pair('canoe:finish_line', server.canoe, None)
+
+    finish_line = Finish_Line()
+    game_world.add_object(finish_line, 1)
+    game_world.add_collision_pair('canoe:finish_line', None, finish_line)
 
     for _ in range(125):
         rock = Rock()
