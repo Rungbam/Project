@@ -29,7 +29,7 @@ def init():
     server.canoe = Canoe()
     game_world.add_object(server.canoe, 1)
     # 카누와 장애물 간 충돌 체크 추가 예정
-    for _ in range(40):
+    for _ in range(250):
         rock = Rock()
         game_world.add_object(rock, 1)
 

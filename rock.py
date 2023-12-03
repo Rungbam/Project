@@ -12,8 +12,10 @@ class Rock:
     def __init__(self, x = None, y = None):
         if Rock.image == None:
             Rock.image = load_image('rock.png')
-        self.x = x if x else random.randint(500, server.river.w - 100)
-        self.y = y if y else random.randint(50, server.river.h - 50)
+        # self.x = x if x else random.randint(10, server.river.w - 10) * 50
+        self.x = x if x and x % 50 == 0 else random.randint(10, (server.river.w - 10) // 50) * 50
+        # self.y = y if y else random.randint(50, server.river.h - 100)
+        self.y = y if y and y % 50 == 0 else random.randint(1, 10) * 50
 
     def draw(self):
         self.image.draw(self.x - server.river.window_left, self.y - server.river.window_bottom, 50, 50)
