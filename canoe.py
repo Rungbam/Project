@@ -1,5 +1,6 @@
 import math
-from pico2d import get_time, load_image, load_font, clamp,  SDL_KEYDOWN, SDL_KEYUP, SDLK_SPACE, SDLK_UP, SDLK_DOWN
+from pico2d import get_time, load_image, load_font, clamp, SDL_KEYDOWN, SDL_KEYUP, SDLK_SPACE, SDLK_UP, SDLK_DOWN, \
+    draw_rectangle
 
 from rock import Rock
 import game_world
@@ -30,22 +31,17 @@ def time_out(e):
 
 # canoe speed
 PIXEL_PER_METER = (10 / 1) # 10픽셀 1m
-RUN_SPEED_KMPH = 50 #10km/h
+RUN_SPEED_KMPH = 50 #50km/h
 RUN_SPEED_MPM = (RUN_SPEED_KMPH * 1000.0 / 60.0)
 RUN_SPEED_MPS = (RUN_SPEED_MPM / 60.0)
 RUN_SPEED_PPS = (RUN_SPEED_MPS * PIXEL_PER_METER)
-
-# Canoe Action Speed
-# TIME_PER_ACTION = 0.5
-# ACTION_PER_TIME = 1.0 / TIME_PER_ACTION
-# FRAMES_PER_ACTION = 8
-
 
 class Idle:
     @staticmethod
     def enter(canoe, e):
         canoe.speed = RUN_SPEED_PPS
         canoe.dir = 0
+        canoe.speed_y = RUN_SPEED_PPS
 
     @staticmethod
     def exit(canoe, e):
@@ -61,6 +57,7 @@ class Move_UP:
     def enter(canoe, e):
         canoe.dir = math.pi / 4.0
         canoe.speed = RUN_SPEED_PPS
+        canoe.speed_y = RUN_SPEED_PPS
 
     @staticmethod
     def exit(canoe, e):
@@ -76,6 +73,7 @@ class Move_DOWN:
     def enter(canoe, e):
         canoe.dir = -math.pi / 4.0
         canoe.speed = RUN_SPEED_PPS
+        canoe.speed_y = RUN_SPEED_PPS
 
     @staticmethod
     def exit(canoe, e):
@@ -101,8 +99,11 @@ class StateMachine:
 
     def update(self):
         self.cur_state.do(self.canoe)
-        self.canoe.x += math.cos(self.canoe.dir) * self.canoe.speed * game_framework.frame_time
-        self.canoe.y += math.sin(self.canoe.dir) * self.canoe.speed * game_framework.frame_time
+        self.canoe.x += math.cos(self.canoe.dir) * self.canoe.speed_y * game_framework.frame_time
+        self.canoe.y += math.sin(self.canoe.dir) * self.canoe.speed_y * game_framework.frame_time
+
+        self.canoe.canoe_x += math.cos(self.canoe.dir) * self.canoe.speed * game_framework.frame_time
+        self.canoe.canoe_y += math.sin(self.canoe.dir) * self.canoe.speed_y * game_framework.frame_time
 
     def handle_event(self, e):
         for check_event, next_state in self.transitions[self.cur_state].items():
@@ -121,6 +122,7 @@ class StateMachine:
 class Canoe:
     def __init__(self):
         self.x, self.y = 400, 300
+        self.canoe_x, self.canoe_y = 400, 300
         self.image = load_image('canoe_1.png')
         self.state_machine = StateMachine(self)
         self.state_machine.start()
@@ -130,17 +132,26 @@ class Canoe:
         self.x = clamp(50.0, self.x, server.river.w - 50.0)
         self.y = clamp(50.0, self.y, server.river.h - 50.0)
 
+        self.canoe_x = clamp(50.0, self.canoe_x, server.river.w - 50.0)
+        self.canoe_y = clamp(50.0, self.canoe_y, server.river.h - 50.0)
+
+        # 카누가 화면 밖으로 벗어날 경우
+        if self.canoe_x < self.x - 450:
+            game_framework.quit()
+
     def handle_event(self, event):
         self.state_machine.handle_event(('INPUT', event))
 
     def draw(self):
-        sx = self.x - server.river.window_left
-        sy = self.y - server.river.window_bottom
+        sx = self.canoe_x - server.river.window_left
+        sy = self.canoe_y - server.river.window_bottom
 
         self.image.clip_draw(0, 0, 100, 100, sx, sy)
 
+        # draw_rectangle(*self.get_bb())
+
     def get_bb(self):
-        return self.x - 50, self.y - 50, self.x + 50, self.y + 50
+        return self.canoe_x - 20, self.canoe_y - 5, self.canoe_x + 20, self.canoe_y + 15
 
     def handle_collision(self, group, other):
         pass

@@ -21,17 +21,17 @@ def handle_events():
 
 
 def init():
-    # global canoe
-
     server.river = River()
     game_world.add_object(server.river, 0)
 
     server.canoe = Canoe()
     game_world.add_object(server.canoe, 1)
-    # 카누와 장애물 간 충돌 체크 추가 예정
-    for _ in range(250):
+    game_world.add_collision_pair('canoe:rock', server.canoe, None)
+
+    for _ in range(125):
         rock = Rock()
         game_world.add_object(rock, 1)
+        game_world.add_collision_pair('canoe:rock', None, rock)
 
 
 

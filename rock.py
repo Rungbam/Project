@@ -19,6 +19,7 @@ class Rock:
 
     def draw(self):
         self.image.draw(self.x - server.river.window_left, self.y - server.river.window_bottom, 50, 50)
+        # draw_rectangle(*self.get_bb())
 
     def update(self):
         pass
@@ -27,5 +28,6 @@ class Rock:
         return self.x - 25, self.y - 25, self.x + 25, self.y + 25
 
     def handle_collision(self, group, other):
-        # match group:
-            pass
+        match group:
+            case 'canoe:rock':
+                server.canoe.speed = 0
