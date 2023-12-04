@@ -29,8 +29,8 @@ def init():
     game_world.add_object(server.runner, 1)
     game_world.add_collision_pair('runner:hurdle', server.runner, None)
 
-    for _ in range(20):
-        hurdle = Hurdle()
+    for i in range(11):
+        hurdle = Hurdle(i * 450 + 460)
         game_world.add_object(hurdle, 1)
         game_world.add_collision_pair('runner:hurdle', None, hurdle)
 
