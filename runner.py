@@ -152,4 +152,3 @@ class Runner:
         match group:
             case 'runner:hurdle':
                 server.runner.speed = 0
-                print(int((server.runner.x - 100) // 55))
