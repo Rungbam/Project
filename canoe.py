@@ -124,7 +124,7 @@ class Canoe:
     def __init__(self):
         self.x, self.y = 400, 300
         self.canoe_x, self.canoe_y = 400, 300
-        self.image = load_image('canoe_1.png')
+        self.image = load_image('canoe.png')
         self.state_machine = StateMachine(self)
         self.state_machine.start()
 
