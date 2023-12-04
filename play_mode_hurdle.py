@@ -1,7 +1,11 @@
 from pico2d import *
 import game_framework
+import os
 
 import game_world
+import server
+from hurdle import Hurdle
+from track import Track
 from runner import Runner
 
 def handle_events():
@@ -12,15 +16,23 @@ def handle_events():
         elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
             game_framework.quit()
         else:
-            runner.handle_event(event)
+            server.runner.handle_event(event)
 
 
 def init():
-    global runner
+    hide_cursor()
 
-    runner = Runner()
-    game_world.add_object(runner, 1)
-    # 허들과 충돌 체크 추가 예정
+    server.track = Track()
+    game_world.add_object(server.track, 0)
+
+    server.runner = Runner()
+    game_world.add_object(server.runner, 1)
+    game_world.add_collision_pair('runner:hurdle', server.runner, None)
+
+    for _ in range(20):
+        hurdle = Hurdle()
+        game_world.add_object(hurdle, 1)
+        game_world.add_collision_pair('runner:hurdle', None, hurdle)
 
 
 def finish():
