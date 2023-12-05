@@ -2,6 +2,7 @@ from pico2d import *
 
 import game_framework
 import game_world
+import canoe_completed_mode
 
 import server
 
@@ -23,7 +24,7 @@ class Finish_Line:
         pass
 
     def get_bb(self):
-        return self.x - 25, self.y - 300, self.x + 25, self.y + 300
+        return self.x - 25, self.y - 600, self.x + 25, self.y + 300
 
     def handle_collision(self, group, other):
         match group:

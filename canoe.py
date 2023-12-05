@@ -6,6 +6,7 @@ from rock import Rock
 from canoe_finish_line import Finish_Line
 import game_world
 import game_framework
+import canoe_game_over
 
 import server
 
@@ -36,6 +37,26 @@ RUN_SPEED_KMPH = 50 #50km/h
 RUN_SPEED_MPM = (RUN_SPEED_KMPH * 1000.0 / 60.0)
 RUN_SPEED_MPS = (RUN_SPEED_MPM / 60.0)
 RUN_SPEED_PPS = (RUN_SPEED_MPS * PIXEL_PER_METER)
+
+
+class Wait:
+    @staticmethod
+    def enter(canoe, e):
+        canoe.wait_time = get_time()
+        canoe.speed = 0
+        canoe.dir = 0
+        canoe.speed_y = 0
+        pass
+
+    @staticmethod
+    def exit(canoe, e):
+        pass
+
+    @staticmethod
+    def do(canoe):
+        if get_time() - canoe.wait_time > 3:
+            canoe.state_machine.handle_event(("TIME_OUT", 0))
+
 
 class Idle:
     @staticmethod
@@ -88,8 +109,9 @@ class Move_DOWN:
 class StateMachine:
     def __init__(self, canoe):
         self.canoe = canoe
-        self.cur_state = Idle
+        self.cur_state = Wait
         self.transitions = {
+            Wait: {time_out: Idle},
             Idle: {up_down: Move_UP, down_down: Move_DOWN, up_up: Move_DOWN, down_up: Move_UP},
             Move_UP: {up_up: Idle, down_down: Idle},
             Move_DOWN: {down_up: Idle, up_down: Idle}
@@ -138,7 +160,7 @@ class Canoe:
 
         # 카누가 화면 밖으로 벗어날 경우
         if self.canoe_x < self.x - 450:
-            game_framework.quit()
+            game_framework.change_mode(canoe_game_over)
 
     def handle_event(self, event):
         self.state_machine.handle_event(('INPUT', event))
