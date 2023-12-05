@@ -2,7 +2,7 @@ from pico2d import load_image, get_events, clear_canvas, update_canvas, load_mus
 from sdl2 import SDL_QUIT, SDL_KEYDOWN, SDLK_ESCAPE, SDLK_SPACE
 
 import game_framework
-import canoe_rule_mode
+import choose_mode
 
 def init():
     global image
@@ -26,7 +26,7 @@ def handle_events():
         elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
             game_framework.quit()
         elif (event.type, event.key) == (SDL_KEYDOWN, SDLK_SPACE):
-            game_framework.change_mode(canoe_rule_mode)
+            game_framework.change_mode(choose_mode)
 
 
 def update():

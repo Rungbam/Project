@@ -10,7 +10,7 @@ def init():
     global bgm
     image = load_image('hurdle_rule.jpg')
     bgm = load_music('Rules-Nintendo-Switch-Sports.mp3')
-    bgm.set_volume(32)
+    bgm.set_volume(100)
     bgm.repeat_play()
 
 def finish():
@@ -31,5 +31,5 @@ def update():
 
 def draw():
     clear_canvas()
-    image.draw(400, 300)
+    image.draw(400, 300, 800, 600)
     update_canvas()

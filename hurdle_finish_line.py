@@ -2,6 +2,7 @@ from pico2d import *
 
 import game_framework
 import game_world
+import hurdle_completed_mode
 
 import server
 
@@ -12,10 +13,10 @@ class Hurdle_finish_Line:
         if Hurdle_finish_Line.image == None:
             Hurdle_finish_Line.image = load_image('track_finish_line.png')
         self.x = x if x else server.track.w - 64 # 100
-        self.y = y if y else server.river.h - 494 # 388
+        self.y = y if y else server.track.h - 500 # 388
 
     def draw(self):
-        self.image.draw(self.x - server.river.window_left, self.y - server.river.window_bottom, 72, 212)
+        self.image.draw(self.x - server.track.window_left, self.y - server.track.window_bottom, 72, 210)
         # draw_rectangle(*self.get_bb())
         pass
 

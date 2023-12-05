@@ -6,7 +6,7 @@ from rock import Rock
 from canoe_finish_line import Finish_Line
 import game_world
 import game_framework
-import canoe_game_over
+import game_over
 
 import server
 
@@ -160,7 +160,7 @@ class Canoe:
 
         # 카누가 화면 밖으로 벗어날 경우
         if self.canoe_x < self.x - 450:
-            game_framework.change_mode(canoe_game_over)
+            game_framework.change_mode(game_over)
 
     def handle_event(self, event):
         self.state_machine.handle_event(('INPUT', event))

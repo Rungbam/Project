@@ -9,7 +9,7 @@ def init():
     global bgm
     image = load_image('canoe_completed.jpg')
     bgm = load_music('Results-_Win_-Nintendo-Switch-Sports.mp3')
-    bgm.set_volume(32)
+    bgm.set_volume(100)
     bgm.repeat_play()
 
 def finish():
@@ -26,8 +26,8 @@ def handle_events():
             game_framework.quit()
         elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
             game_framework.quit()
-        elif (event.type, event.key) == (SDL_KEYDOWN, SDLK_SPACE):
-            game_framework.change_mode(hurdle_rule_mode)
+        # elif (event.type, event.key) == (SDL_KEYDOWN, SDLK_SPACE):
+        #     game_framework.change_mode(hurdle_rule_mode)
 
 
 def update():

@@ -24,7 +24,7 @@ class Hurdle:
 
     def draw(self):
         self.image.draw(self.x - server.track.window_left, self.y - server.track.window_bottom, 100, 100)
-        draw_rectangle(*self.get_bb())
+        # draw_rectangle(*self.get_bb())
 
     def update(self):
         pass

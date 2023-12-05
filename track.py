@@ -9,6 +9,9 @@ class Track:
         self.ch = get_canvas_height()
         self.w = self.image.w
         self.h = self.image.h
+        self.bgm = load_music('Hurdle-Nintendo-Switch-Sports-Soundtrack.mp3')
+        self.bgm.set_volume(100)
+        self.bgm.repeat_play()
 
     def draw(self):
         self.image.clip_draw_to_origin(self.window_left, self.window_bottom, self.cw, self.ch, 0, 0)

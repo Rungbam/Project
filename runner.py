@@ -3,6 +3,8 @@ from pico2d import get_time, load_image, load_font, clamp, SDL_KEYDOWN, SDL_KEYU
 
 import time
 import math
+
+import game_over
 import game_world
 import game_framework
 from hurdle import Hurdle
@@ -42,6 +44,23 @@ RUN_SPEED_PPS = (RUN_SPEED_MPS * PIXEL_PER_METER)
 TIME_PER_ACTION = 0.5
 ACTION_PER_TIME = 1.0 / TIME_PER_ACTION
 FRAMES_PER_ACTION = 8
+
+
+class Wait:
+    @staticmethod
+    def enter(runner, e):
+        runner.speed = 0
+        runner.dir = 0
+        runner.wait_time = get_time()
+
+    @staticmethod
+    def exit(runner, e):
+        pass
+
+    @staticmethod
+    def do(runner):
+        if get_time() - runner.wait_time > 3:
+            runner.state_machine.handle_event(("TIME_OUT", 0))
 
 
 class Idle:
@@ -94,8 +113,9 @@ class Jump_down:
 class StateMachine:
     def __init__(self, runner):
         self.runner = runner
-        self.cur_state = Idle
+        self.cur_state = Wait
         self.transitions = {
+            Wait: {time_out: Idle},
             Idle: {space_down: Jump_up},
             Jump_up: {jump_down: Jump_down},
             Jump_down: {jump_out: Idle}
@@ -124,6 +144,7 @@ class StateMachine:
 class Runner:
     def __init__(self):
         self.x, self.y = 100, 150
+        # self.x, self.y = 5300, 150
         self.frame = 0
         self.image = load_image('runner.png')
         self.state_machine = StateMachine(self)
@@ -143,7 +164,7 @@ class Runner:
         sy = self.y - server.track.window_bottom
 
         self.image.clip_draw(int(self.frame) * 115, 0, 115, 140, sx, sy, 100, 150)
-        draw_rectangle(*self.get_bb())
+        # draw_rectangle(*self.get_bb())
 
     def get_bb(self):
         return self.x - 30, self.y - 75, self.x + 30, self.y + 75
@@ -151,4 +172,4 @@ class Runner:
     def handle_collision(self, group, other):
         match group:
             case 'runner:hurdle':
-                server.runner.speed = 0
+                game_framework.change_mode(game_over)
