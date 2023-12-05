@@ -7,6 +7,7 @@ import server
 from hurdle import Hurdle
 from track import Track
 from runner import Runner
+from hurdle_finish_line import Hurdle_finish_Line
 
 def handle_events():
     events = get_events()
@@ -28,12 +29,16 @@ def init():
     server.runner = Runner()
     game_world.add_object(server.runner, 1)
     game_world.add_collision_pair('runner:hurdle', server.runner, None)
+    game_world.add_collision_pair('runner:hurdle_finish_line', server.runner, None)
 
     for i in range(11):
         hurdle = Hurdle(i * 450 + 460)
         game_world.add_object(hurdle, 1)
         game_world.add_collision_pair('runner:hurdle', None, hurdle)
 
+    hurdle_finish_line = Hurdle_finish_Line()
+    game_world.add_object(hurdle_finish_line, 1)
+    game_world.add_collision_pair('runner:hurdle_finish_line', None, hurdle_finish_line)
 
 def finish():
     game_world.clear()
