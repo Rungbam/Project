@@ -3,20 +3,33 @@ main_file = 'main.py'
 
 # 데이타 파일들을 지정하세요.
 data_files = [
-    'field.jpg',
-    'clay_plate.png',
-    'canoe.png',
     'aiming_point.png',
-    'hudle_1.png',
-    'hudle_2.png',
-    'hudle_3.png',
-    'river.jpg',
+    'canoe.png',
+    'canoe_completed.jpg',
+    'Canoe-Nintendo-Switch-Sports.mp3',
+    'canoe_rule.jpg',
+    'choose.jpg',
+    'clay_plate.png',
+    'field.jpg',
+    'finish_flag.png',
+    'game_over.jpg',
+    'hurdle.png',
+    'Hurdle-Nintendo-Switch-Sports-Soundtrack.mp3',
+    'hurdle_completed.jpg',
+    'hurdle_rule.jpg',
+    'main_title.jpg',
+    'other_rock.png',
+    'Results-_Lose_-Nintendo-Switch-Sports.mp3',
+    'Results-_Win_-Nintendo-Switch-Sports.mp3',
+    'river.png',
     'rock.png',
-    'title.png',
+    'Rules-Nintendo-Switch-Sports.mp3',
+    'runner.png',
+    'Title-Screen-Nintendo-Switch-Sports.mp3',
     'track.png',
     'track_finish_line.png',
-    'tuk_credit.png',
-    'yoshi.png'
+    'track_full.png',
+    'tuk_credit.png'
 ]
 
 # 데이타가 들어있는 폴더들을 지정하세요.
