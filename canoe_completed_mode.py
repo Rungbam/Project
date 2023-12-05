@@ -6,6 +6,7 @@ import hurdle_rule_mode
 
 def init():
     global image
+    global bgm
     image = load_image('canoe_completed.jpg')
     bgm = load_music('Results-_Win_-Nintendo-Switch-Sports.mp3')
     bgm.set_volume(32)
@@ -13,7 +14,10 @@ def init():
 
 def finish():
     global image
+    global bgm
     del image
+    del bgm
+
 
 def handle_events():
     events = get_events()

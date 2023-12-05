@@ -1,17 +1,22 @@
-from pico2d import load_image, get_events, clear_canvas, update_canvas
+from pico2d import load_image, get_events, clear_canvas, update_canvas, load_music
 from sdl2 import SDL_QUIT, SDL_KEYDOWN, SDLK_ESCAPE, SDLK_SPACE
 
 import game_framework
-import hurdle_rule_mode
 import canoe_rule_mode
 
 def init():
     global image
+    global bgm
     image = load_image('main_title.jpg')
+    bgm = load_music('Title-Screen-Nintendo-Switch-Sports.mp3')
+    bgm.set_volume(32)
+    bgm.repeat_play()
 
 def finish():
     global image
+    global bgm
     del image
+    del bgm
 
 def handle_events():
     events = get_events()
@@ -21,7 +26,7 @@ def handle_events():
         elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
             game_framework.quit()
         elif (event.type, event.key) == (SDL_KEYDOWN, SDLK_SPACE):
-            game_framework.change_mode(hurdle_rule_mode)
+            game_framework.change_mode(canoe_rule_mode)
 
 
 def update():
